@@ -2,7 +2,7 @@
 |----|----|
 |0.60+|内置组件移除|
  
-# 如何使用？
+# 如何使用？<a href="https://www.npmjs.com/package/react-native-android-auto-update"><img alt="npm version" src="http://img.shields.io/npm/v/@react-sextant/upgrade-auto.svg?style=flat-square"></a>
 ```bash
 $ npm i @react-sextant/upgrade-auto
 

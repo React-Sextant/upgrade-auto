@@ -15,7 +15,7 @@ function fullPath (dir, files) {
     });
 }
 
-getPackageJson("./../..", function (f, s) {
+getPackageJson("./../../..", function (f, s) {
     var isPackageJson = f.match(/package\.json/);
     if (isPackageJson != null) {
         console.log("find package.json file: " + f);
