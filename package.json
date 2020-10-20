@@ -1,0 +1,24 @@
+{
+  "name": "upgrade-auto",
+  "version": "1.0.0",
+  "description": "React-Native 升级0.60+的自动更新脚步",
+  "scripts": {
+    "postinstall": "node postInstall.js"
+  },
+  "keywords": [
+    "react",
+    "native",
+    "auto",
+    "upgrade",
+    "@react-native-community/"
+  ],
+  "author": {
+    "name": "1uokun",
+    "url": "https://github.com/1uokun"
+  },
+  "license": "ISC",
+  "homepage": "https://github.com/React-Sextant/upgrade-auto",
+  "bugs": {
+    "url": "https://github.com/React-Sextant/upgrade-auto/issues"
+  }
+}
