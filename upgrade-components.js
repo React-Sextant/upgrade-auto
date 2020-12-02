@@ -30,7 +30,7 @@ function travel(dir, callback, finish) {
                                     const reg = `(import.*)(${component}\s*,|${component},|${component})(.*react-native["|'].*)`;
                                     if(new RegExp(reg).test(data)){
                                         _data = (_data||data).replace(new RegExp(reg),`$1$3\nimport {${component} } from "${package}";`);
-                                        _install[pathname] ? _install[pathname].push("\""+package+"\"") : _install[pathname] = ["\""+package+"\"","\""+package+"\""];
+                                        _install[pathname] ? _install[pathname].push("\""+package+"\"") : _install[pathname] = ["\""+package+"\""];
                                     }
                                 }
                                 if(_data){
