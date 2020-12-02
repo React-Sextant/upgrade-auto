@@ -8,7 +8,31 @@ $ npm i @react-sextant/upgrade-auto
 
 $ npm run upgrade-components
 ```
+# package.json变化⚠️
+> 安装成功后 package.json将会被自动修改⚠️
+> 那些被移除的内置组件，需要在`package.json`中的`upgradeDependencies`字段中添加对应替换的npm包名
+```diff
+ {
+   "name": "xxx",
+   "version": "0.0.1",
+   "scripts": {
+     ...
 
++    "upgrade-components": "node node_modules/@react-sextant/upgrade-auto/upgrade-components.js"
+   },
+
+   ...
+
++  "upgradeDependencies": {
++    "WebView": "react-native-webview",
++    "NetInfo": "@react-native-community/netinfo",
++    "CameraRoll": "@react-native-community/cameraroll",
++    "ImageEditor": "@react-native-community/image-editor",
++    "ViewPagerAndroid": "@react-native-community/viewpager"
++  }
+
+ }
+```
 # 当React-Native版本升级时遇到了问题
 
 <details>

@@ -24,16 +24,24 @@ getPackageJson("./../../..", function (f, s) {
             return;
         }
         var rf = fs.readFileSync(f, "utf-8");
-        var searchKey = rf.match(/\n.*\"scripts\"\: \{\n/);
-
-        if (/upgrade-components/.test(rf)) {
-            return;
+        var packagejson = JSON.parse(rf);
+        if(packagejson.hasOwnProperty("scripts")){
+            packagejson.scripts["upgrade-components"] = "node node_modules/@react-sextant/upgrade-auto/upgrade-components.js"
+        }else {
+            packagejson["scripts"] = {"upgrade-components":"node node_modules/@react-sextant/upgrade-auto/upgrade-components.js"}
         }
 
-        if (searchKey != null) {
-            rf = rf.replace(searchKey[0], searchKey[0] + "    \"upgrade-components\"\: \"node node_modules\/upgrade-auto\/upgrade-components\.js\"\,\n");
-            fs.writeFileSync(f, rf, "utf-8");
+        if(!packagejson.hasOwnProperty("upgradeDependencies")){
+            packagejson["upgradeDependencies"] = {
+                "WebView": "react-native-webview",
+                "NetInfo": "@react-native-community/netinfo",
+                "CameraRoll": "@react-native-community/cameraroll",
+                "ImageEditor": "@react-native-community/image-editor",
+                "ViewPagerAndroid": "@react-native-community/viewpager"
+            }
         }
+
+        fs.writeFileSync(f, JSON.stringify(packagejson, null, 2), "utf-8");
     }
 });
 
