@@ -1,6 +1,7 @@
 const path = require("path");
 const fs = require("fs");
-const dir = './node_modules';
+// UNDO: Ignore .gitignore file
+const dir = './';
 
 let upgradeDependencies = {};
 try{
@@ -26,8 +27,14 @@ function travel(dir, callback, finish) {
                                 let _data = "";
                                 let _install = {};
                                 for (const component in upgradeDependencies) {
-                                    const package = upgradeDependencies[component];
-                                    const reg = `(import.*)(${component}\s*,|${component},|${component})(.*react-native["|'].*)`;
+                                    let package = upgradeDependencies[component]||"";
+                                    let oldPackage = "react-native";
+                                    if(package.indexOf(">") > -1){
+                                        const _arr = package.replace(/[\s|\n]/g,"").split(">");
+                                        package = _arr[0];
+                                        oldPackage = _arr[1];
+                                    }
+                                    const reg = `(import.*)(${component}.*,|${component})(.*${oldPackage}["|'].*)`;
                                     if(new RegExp(reg).test(data)){
                                         _data = (_data||data).replace(new RegExp(reg),`$1$3\nimport {${component} } from "${package}";`);
                                         _install[pathname] ? _install[pathname].push("\""+package+"\"") : _install[pathname] = ["\""+package+"\""];

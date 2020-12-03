@@ -24,6 +24,7 @@ $ npm run upgrade-components
    ...
 
 +  "upgradeDependencies": {
++    "NavigationActions": "@react-navigation/compat > react-navigation",
 +    "WebView": "react-native-webview",
 +    "NetInfo": "@react-native-community/netinfo",
 +    "CameraRoll": "@react-native-community/cameraroll",
