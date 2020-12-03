@@ -22,7 +22,6 @@ function travel(dir, callback, finish) {
                         const extname = path.extname(pathname);
                         if(extname === ".js" || extname === ".ts" || extname === ".tsx"){
                             fs.readFile(pathname, "utf8", function(err, data) {
-                                // const WebView = /(import.*)(WebView\s*,|WebView,|WebView)(.*react-native["|'].*)/;
 
                                 let _data = "";
                                 let _install = {};
@@ -41,7 +40,7 @@ function travel(dir, callback, finish) {
                                         oldPackage = _arr[1];
                                     }
 
-                                    const reg = `(import.*)(${component}.*[,])(.*${oldPackage.trim()}["|'].*)`;
+                                    const reg = `(import.*)(${component}.*?[,])(.*${oldPackage.trim()}["|'].*)`;
                                     if(new RegExp(reg).test(data)){
                                         /**
                                          * {
