@@ -29,14 +29,36 @@ function travel(dir, callback, finish) {
                                 for (const component in upgradeDependencies) {
                                     let package = upgradeDependencies[component]||"";
                                     let oldPackage = "react-native";
+
+                                    /**
+                                     * {
+                                     *   "NavigationActions": "@react-navigation/compat > react-navigation"
+                                     * }
+                                     * **/
                                     if(package.indexOf(">") > -1){
-                                        const _arr = package.replace(/[\s|\n]/g,"").split(">");
+                                        const _arr = package.split(">");
                                         package = _arr[0];
                                         oldPackage = _arr[1];
                                     }
-                                    const reg = `(import.*)(${component}.*,|${component})(.*${oldPackage}["|'].*)`;
+
+                                    const reg = `(import.*)(${component}.*[,])(.*${oldPackage.trim()}["|'].*)`;
                                     if(new RegExp(reg).test(data)){
-                                        _data = (_data||data).replace(new RegExp(reg),`$1$3\nimport ${component} from "${package}";`);
+                                        /**
+                                         * {
+                                         *   "ART": "import * as ART from '@react-native-community/art'"
+                                         * }
+                                         * **/
+                                        if(new RegExp(/'(.+)'|"(.+)"/).test(package)){
+                                            _data = (_data||data).replace(new RegExp(reg),`$1$3\n${package.trim()};`);
+                                            package = new RegExp(/'(.+)'|"(.+)"/).exec(package)[1];
+                                        }else {
+                                            /**
+                                             * {
+                                             *   "WebView": "react-native-webview"
+                                             * }
+                                             * **/
+                                            _data = (_data||data).replace(new RegExp(reg),`$1$3\nimport ${component} from "${package}";`);
+                                        }
                                         _install[pathname] ? _install[pathname].push("\""+package+"\"") : _install[pathname] = ["\""+package+"\""];
                                     }
                                 }
