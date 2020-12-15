@@ -66,16 +66,25 @@ function travel(dir, callback, finish) {
 
                         if(extname === ".js" || extname === ".ts" || extname === ".tsx"){
                             fs.readFile(pathname, "utf8", function(err, data) {
-                                let _data = "";
-                                let _install = {};
-                                upgradeDependencies.forEach(b=>{
-                                    if(new RegExp(b.reg).test(data)){
-                                        _data = (_data||data).replace(new RegExp(b.reg),b.replaceValue);
-                                        _install[pathname] ? _install[pathname].push("\""+b.package+"\"") : _install[pathname] = ["\""+b.package+"\""];
+
+                                const initialData = {data, installs:[]};
+                                const reducer = function(state, action){
+                                    if(new RegExp(action.reg).test(state.data)){
+                                        return {
+                                            data:state.data.replace(new RegExp(action.reg),action.replaceValue),
+                                            installs:[...state.installs, "\""+action.package+"\""]
+                                        }
+                                    }else {
+                                        return state
                                     }
-                                })
-                                if(_data){
-                                    fs.writeFile(pathname, _data,callback.bind(this,path.resolve(pathname),_install[pathname].join(" 、 ")));
+                                };
+                                const finalData = Array.prototype.reduce.call(
+                                    upgradeDependencies,
+                                    reducer,
+                                    initialData
+                                );
+                                if(finalData.installs.length>0){
+                                    fs.writeFile(pathname, finalData.data,callback.bind(this,path.resolve(pathname),finalData.installs.join(" 、 ")));
                                 }
                             })
                         }
