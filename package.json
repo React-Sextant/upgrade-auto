@@ -1,6 +1,6 @@
 {
   "name": "@react-sextant/upgrade-auto",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "React-Native 升级0.60+的自动更新脚步",
   "scripts": {
     "postinstall": "node postInstall.js"
