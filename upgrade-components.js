@@ -60,7 +60,7 @@ function travel(dir, callback, finish) {
                 var pathname = path.join(dir, files[i]);
                 fs.stat(pathname, function (err, stats) {
                     if (stats.isDirectory()) {
-                        travel(pathname,callback,finish)
+                        setTimeout(function(){travel(pathname,callback,finish)},1)
                     }else {
                         const extname = path.extname(pathname);
 
